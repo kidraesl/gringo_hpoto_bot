@@ -49,11 +49,10 @@ def bot_message(message):
                          reply_markup=markup3)
 
     elif message.text == 'Оценить фото' or message.text == 'Оценить все фото ещё раз':
-        bot.send_message(message.chat.id, "Оцени фото по шкале от 1 до 5")
         next_photo = open(db.get_photo(photo_id), 'rb')
         bot.send_photo(message.chat.id, next_photo)
         photo_id += 1
-        bot.send_message(message.chat.id, 'Поставь оценку', reply_markup=markup1)
+        bot.send_message(message.chat.id, "Оцени фото по шкале от 1 до 5", reply_markup=markup1)
         step += 1
         db.change_step(message.chat.id, step)
 
@@ -62,8 +61,7 @@ def bot_message(message):
 
             next_photo = open(db.get_photo(photo_id), 'rb')
             bot.send_photo(message.chat.id, next_photo)
-            bot.send_message(message.chat.id, "Оцени фото по шкале от 1 до 5")
-            bot.send_message(message.chat.id, 'Поставь оценку', reply_markup=markup1)
+            bot.send_message(message.chat.id, "Оцени фото по шкале от 1 до 5", reply_markup=markup1)
             step += 1
             photo_id += 1
             db.change_step(message.chat.id, step)
