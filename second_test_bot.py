@@ -71,6 +71,8 @@ def bot_message(message):
         except Exception:
             bot.send_message(message.chat.id, 'Это все фото на данный момент, спасибо за твои оценки!',
                              reply_markup=markup2)
+            photo_id = 1
+            step = 1
 
     elif message.text == 'В начало':
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
