@@ -32,6 +32,11 @@ def bot_message(message):
     rating_button_5 = types.KeyboardButton('5')
     markup1.add(rating_button_1, rating_button_2, rating_button_3, rating_button_4, rating_button_5)
 
+    markup2 = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    button1 = types.KeyboardButton('В начало')
+    button2 = types.KeyboardButton('Оценить все фото ещё раз')
+    markup2.add(button1, button2)
+
     if message.text == 'Узнать подробнее про бота':
         markup3 = types.ReplyKeyboardMarkup(resize_keyboard=True)
         btn1 = types.KeyboardButton('Оценить фото')
@@ -53,13 +58,19 @@ def bot_message(message):
         db.change_step(message.chat.id, step)
 
     elif db.get_id(message.chat.id) == message.chat.id and db.get_step(message.chat.id) == step:
-        bot.send_message(message.chat.id, "Оцени фото по шкале от 1 до 5")
-        next_photo = open(db.get_photo(photo_id), 'rb')
-        bot.send_photo(message.chat.id, next_photo)
-        bot.send_message(message.chat.id, 'Поставь оценку', reply_markup=markup1)
-        step += 1
-        photo_id += 1
-        db.change_step(message.chat.id, step)
+        try:
+
+            next_photo = open(db.get_photo(photo_id), 'rb')
+            bot.send_photo(message.chat.id, next_photo)
+            bot.send_message(message.chat.id, "Оцени фото по шкале от 1 до 5")
+            bot.send_message(message.chat.id, 'Поставь оценку', reply_markup=markup1)
+            step += 1
+            photo_id += 1
+            db.change_step(message.chat.id, step)
+
+        except Exception:
+            bot.send_message(message.chat.id, 'Это все фото на данный момент, спасибо за твои оценки!',
+                             reply_markup=markup2)
 
     elif message.text == 'В начало':
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
