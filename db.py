@@ -9,6 +9,20 @@ def insert_photo(photo: str, step_photo: int):
     conn.commit()
     conn.close()
 
+def get_photo(id):
+    conn = sqlite3.connect('db_for_test.db', check_same_thread=False)
+    cursor = conn.cursor()
+    next_photo = cursor.execute(f'SELECT * FROM photo WHERE id={id}').fetchone()
+    conn.close()
+    return next_photo[1]
+
+def get_photo_step(id):
+    conn = sqlite3.connect('db_for_test.db', check_same_thread=False)
+    cursor = conn.cursor()
+    step = cursor.execute(f'SELECT * FROM photo WHERE id={id}').fetchone()
+    conn.close()
+    return step[2]
+
 def change_photo_dir(usid, photo):
     conn = sqlite3.connect('db_for_test.db', check_same_thread=False)
     curs = conn.cursor()
