@@ -1,11 +1,12 @@
 import telebot
 from telebot import types
-import db
+import class_db
 
 bot = telebot.TeleBot(open('config').read())
 
 step = 1
 photo_id = 1
+db = class_db.Db()
 
 @bot.message_handler(commands=['start'])
 def start(message):
